@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: __NAME__
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: __NAME__
+  template:
+    metadata:
+      labels:
+        app: __NAME__
+    spec:
+      containers:
+        - name: __NAME__
+          image: "__NAME__:latest"
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          env: []
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2500Mi
+            requests:
+              cpu: 200m
+              memory: 1500Mi
+          envFrom:
+            - secretRef:
+                name: __NAME__-secret
+  strategy:
+    canary:
+      steps:
+        - setWeight: 50
+        - pause:
+            duration: 10s
+        - setWeight: 100

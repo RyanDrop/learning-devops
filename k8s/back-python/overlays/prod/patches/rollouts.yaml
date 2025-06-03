@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: back-python
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: back-python
+  template:
+    metadata:
+      labels:
+        app: back-python
+    spec:
+      containers:
+        - name: back-python
+          image: "back-python:latest"
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          env: []
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2500Mi
+            requests:
+              cpu: 200m
+              memory: 1500Mi
+          envFrom:
+            - secretRef:
+                name: back-python-secret
+  strategy:
+    canary:
+      steps:
+        - setWeight: 50
+        - pause:
+            duration: 10s
+        - setWeight: 100

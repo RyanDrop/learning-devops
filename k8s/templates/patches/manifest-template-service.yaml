@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: __NAME__
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: __PORT__
+      name: http

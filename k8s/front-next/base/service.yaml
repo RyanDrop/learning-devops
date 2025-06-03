@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-next
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 3000
+      name: http

@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: front-next
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: front-next
+  template:
+    metadata:
+      labels:
+        app: front-next
+    spec:
+      containers:
+        - name: front-next
+          image: "front-next:latest"
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          env: []
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2500Mi
+            requests:
+              cpu: 200m
+              memory: 1500Mi
+          envFrom:
+            - secretRef:
+                name: front-next-secret
+  strategy:
+    canary:
+      steps:
+        - setWeight: 50
+        - pause:
+            duration: 10s
+        - setWeight: 100

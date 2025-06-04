@@ -13,7 +13,7 @@ app.add_middleware(
 )
 
 
-@app.get("/")
+@app.get("/message")
 async def root():
     return {"message": "Container do back-end em Python!!! 🎉"}
 

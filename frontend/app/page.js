@@ -4,15 +4,14 @@ import styles from "./page.module.css";
 
 export default function Home() {
   // inicializar uma variável reativa que vai receber o resultado da requisição
-  const [resultado, setResultado] = useState(
-    "Nenhuma requisição foi realizada..."
-  );
+  const [resultado, setResultado] = useState("Nenhuma requisição foi realizada...");
 
   // função para fazer a requisição ao container do back-end
   async function fazerRequisicao() {
+    console.log("Fazendo requisição ao back-end...");
     try {
       // fazer uma requisição para a porta do container do back-end
-      const response = await fetch("http://localhost:8000/");
+      const response = await fetch("http://back-python-dev/message");
       // receber o retorno da requisição e coletar a resposta em formato json
       const data = await response.json();
       // setar o retorno da requisição como o novo valor da variável resultado
